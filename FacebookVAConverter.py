@@ -23,6 +23,15 @@ fbva = pd.read_csv(INPUT_PATH + "/dataset-fb-valence-arousal-anon.csv")
 fbva["V"] = fbva[['Valence1', 'Valence2']].mean(axis=1)
 fbva["A"] = fbva[['Arousal1', 'Arousal2']].mean(axis=1)
 
+def is_string(line):
+    return(type(line) == str)
+
+def tab_stripper(line):
+    return(line.replace("\t", " "))
+
+fbva = fbva.loc[fbva["Anonymized Message"].apply(is_string),:]
+fbva["Anonymized Message"] = fbva["Anonymized Message"].apply(tab_stripper)
+
 fraction = 0.2
 
 np.random.seed(seed=42)
